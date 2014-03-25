@@ -1,7 +1,7 @@
 
 trim <- function (x) gsub("^\\s+|\\s+$", "", x)
 
-# read html code from website
+# generate URLS
 year <-  seq(1991, 2014, 1)
 urls <- paste("http://www.danskfodbold.com/kampe.php?seasonid=",
              year, sep = "")
@@ -17,6 +17,7 @@ remove <- c("Dato", "Hjemmehold",
             "Stadion",
             "Kampen sluttede oprindeligt 1-2, men DBU omstødte resultatet til 0-3, da Esbjerg fB havde benyttet en spiller ulovligt.")
 
+# scrape function
 get_data <- function(url){
   require(XML)
   url.data <- readLines(url)
@@ -37,6 +38,7 @@ get_data <- function(url){
   return(do.call(rbind, data))
 }
 
+# loop
 soc_data <- list()
 for(i in seq_along(urls)){
   soc_data[[i]] <- get_data(urls[i])
